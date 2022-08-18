@@ -18,18 +18,41 @@ startup
 
 	vars.Difficulties = new[] { "Easy", "Medium", "Hard", "Extra Hard" };
 
-	settings.Add("Any%");
+	#region Any% Settings
+	settings.Add("Any%", true);
 
 	settings.Add("start", true, "Sacrifice", "Any%");
 	settings.Add("esc", true, "Escape", "Any%");
 	settings.Add("base", true, "Base", "Any%");
 
 	settings.Add("dw", true, "Darkwood", "Any%");
-	settings.Add("anu", true, "Anura", "Any%");
-	settings.Add("sc", true, "Silk Cradle", "Any%");
-	settings.Add("ad", true, "Anchordeep", "Any%");
+	settings.Add("lesh", true, "Leshy", "Any%");
 
-	settings.Add("100%");
+	settings.Add("anu", true, "Anura", "Any%");
+	settings.Add("heke", true, "Heket", "Any%");
+
+	settings.Add("sc", true, "Silk Cradle", "Any%");
+	settings.Add("sha", true, "Shamura", "Any%");
+
+	settings.Add("ad", true, "Anchordeep", "Any%");
+	settings.Add("kal", true, "Kallamar", "Any%");
+
+	settings.Add("oww", true, "The One Who Waits", "Any%");
+	#endregion
+
+	#region 100% Settings
+	settings.Add("100%", false);
+
+	settings.Add("leshy", false, "Split on Leshy Killed", "100%");
+	settings.Add("heket", false, "Split on Heket Killed", "100%");
+	settings.Add("shamura", false, "Split on Shamura Killed", "100%");
+	settings.Add("kallamar", false, "Split on Kallamar Killed", "100%");
+	settings.Add("toww", false, "Split on The One Who Waits Killed", "100%");
+
+	settings.Add("deco", false, "Split on All Decorations Collected", "100%");
+	settings.Add("fleece", false, "Split on All Fleeces Collected", "100%");
+	settings.Add("quests", false, "Split on All Quests Completed", "100%");
+	#endregion
 
 	vars.Helper.AlertGameTime("Cult Of The Lamb");
 
