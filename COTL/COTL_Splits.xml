@@ -7,7 +7,6 @@
 	<Split ID="scene_map_world_DLC" Name="Inkwell Isle DLC (Enter Scene)" ToolTip="Splits when first entering Inkwell Isle DLC" Type="SCENE_ENTER"/>
 
 	<Split ID="scene_level_tutorial"         Name="Tutorial (Level)"         ToolTip="Splits when leaving the Tutorial level"         Type="SCENE_LEAVE"/>
-	<!-- Sort of guessing the chalice tutorial level name, long story short our current mod has some issues regarding that tutorial level and it doesn't display properly -->
 	<Split ID="scene_level_chalice_tutorial" Name="Chalice Tutorial (Level)" ToolTip="Splits when leaving the Chalice Tutorial level" Type="SCENE_LEAVE"/>
 
 	<Split ID="scene_level_veggies"      Name="The Root Pack (Boss)"    ToolTip="Splits when level is finished" Type="LEVEL_COMPLETE" Level="6"/>
