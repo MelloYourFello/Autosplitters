@@ -62,8 +62,12 @@ init
     vars.Helper.TryOnLoad = (Func<dynamic, bool>)(mono =>
     {
         var uim = mono.GetClass("UIManager", 1);
-        vars.Helper["isPaused"] = uim.Make<bool>("_instance", "IsPaused");
 		var DataManager = mono.GetClass("DataManager");
+		var mmt = mono.GetClass("MMTools.MMTransition");
+
+
+        vars.Helper["isPaused"] = uim.Make<bool>("_instance", "IsPaused");
+		vars.Helper["IsPlaying"] = mmt.Make<bool>("IsPlaying");
         vars.Helper["BossesCompleted"] = DataManager.MakeList<int>("instance", "BossesCompleted");
         vars.Helper["DeathCatBeaten"] = DataManager.Make<bool>("instance", "DeathCatBeaten");
 
@@ -83,7 +87,9 @@ update
 	current.Scene = vars.Helper.Scenes.Active.Name ?? old.Scene;
 	vars.OldScene = vars.CurrentScene;
     vars.CurrentScene = vars.Helper.Scenes.Active.Name;
+
 	current.IsPaused = vars.Helper["isPaused"].Current;
+	current.IsPlaying = vars.Helper["IsPlaying"].Current;
 	vars.Log(current.Scene);
 }
 
@@ -93,7 +99,8 @@ split
 	 if (vars.CurrentScene == "Main Menu")
         return false;
 
-    return (settings["oww"] && vars.OldScene != "Credits" && vars.CurrentScene == "Credits")
+    return (settings["esc"] && current.IsPlaying == false && old.IsPlaying == true && vars.CurrentScene == "Game Biome Intro" ) 
+		||(settings["oww"] && vars.OldScene != "Credits" && vars.CurrentScene == "Credits")
         || (settings["oww"] && !vars.Helper["DeathCatBeaten"].Old && vars.Helper["DeathCatBeaten"].Current)
         || (settings["lesh"] && !vars.Helper["BossesCompleted"].Old.Contains(7)  && vars.Helper["BossesCompleted"].Current.Contains(7))
         || (settings["heke"] && !vars.Helper["BossesCompleted"].Old.Contains(8)  && vars.Helper["BossesCompleted"].Current.Contains(8))
