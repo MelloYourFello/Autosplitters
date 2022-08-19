@@ -71,11 +71,6 @@ init
     vars.Helper.Load();
 }
 
-onStart
-{
-
-}
-
 update
 {
     if (!vars.Helper.Update())
@@ -97,4 +92,14 @@ start
 isLoading
 {
 	
+}
+
+exit
+{
+	vars.Helper.Dispose()
+}
+
+shutdown
+{
+	vars.Helper.Dispose()
 }
