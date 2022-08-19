@@ -77,18 +77,20 @@ update
     if (!vars.Helper.Update())
         return false; 
 
+	current.Scene = vars.Helper.Scenes.Active.Name ?? old.Scene;
 	current.IsPaused = vars.Helper["isPaused"].Current;
+	vars.Log(current.Scene);
 }
 
 
 split
 {
-
+	
 }
 
 start
 {
-	
+	return current.Scene == "Game Biome Intro";
 }
 
 isLoading
@@ -104,4 +106,9 @@ exit
 shutdown
 {
 	vars.Helper.Dispose();
+}
+
+reset
+{
+	return current.Scene == "Main Menu";
 }
