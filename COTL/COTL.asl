@@ -63,7 +63,8 @@ init
 {
     vars.Helper.TryOnLoad = (Func<dynamic, bool>)(mono =>
     {
-        var li = mono.GetClass("LoadingIcon");
+        var uim = mono.GetClass("UIManager", 1);
+        vars.Helper["isPaused"] = uim.Make<bool>("_instance", "IsPaused");
 
         return true;
     });
@@ -76,6 +77,7 @@ update
     if (!vars.Helper.Update())
         return false; 
 
+	current.IsPaused = vars.Helper["isPaused"].Current;
 }
 
 
@@ -91,15 +93,15 @@ start
 
 isLoading
 {
-	
+	return current.IsPaused;
 }
 
 exit
 {
-	vars.Helper.Dispose()
+	vars.Helper.Dispose();
 }
 
 shutdown
 {
-	vars.Helper.Dispose()
+	vars.Helper.Dispose();
 }
