@@ -11,8 +11,6 @@ startup
 	vars.Helper.LoadSceneManager = true;
 	#endregion
 
-	vars.canSplit = false;
-
 	vars.Splits = new Dictionary<string, string>();	
 	vars.SceneLevels = new Dictionary<string, int>();
 
@@ -65,11 +63,16 @@ init
     {
         var uim = mono.GetClass("UIManager", 1);
         vars.Helper["isPaused"] = uim.Make<bool>("_instance", "IsPaused");
+		var DataManager = mono.GetClass("DataManager");
+        vars.Helper["BossesCompleted"] = DataManager.MakeList<int>("instance", "BossesCompleted");
+        vars.Helper["DeathCatBeaten"] = DataManager.Make<bool>("instance", "DeathCatBeaten");
 
         return true;
     });
 
     vars.Helper.Load();
+
+	vars.CurrentScene = vars.Helper.Scenes.Active.Name;
 }
 
 update
@@ -78,6 +81,8 @@ update
         return false; 
 
 	current.Scene = vars.Helper.Scenes.Active.Name ?? old.Scene;
+	vars.OldScene = vars.CurrentScene;
+    vars.CurrentScene = vars.Helper.Scenes.Active.Name;
 	current.IsPaused = vars.Helper["isPaused"].Current;
 	vars.Log(current.Scene);
 }
@@ -85,7 +90,15 @@ update
 
 split
 {
-	
+	 if (vars.CurrentScene == "Main Menu")
+        return false;
+
+    return (settings["oww"] && vars.OldScene != "Credits" && vars.CurrentScene == "Credits")
+        || (settings["oww"] && !vars.Helper["DeathCatBeaten"].Old && vars.Helper["DeathCatBeaten"].Current)
+        || (settings["lesh"] && !vars.Helper["BossesCompleted"].Old.Contains(7)  && vars.Helper["BossesCompleted"].Current.Contains(7))
+        || (settings["heke"] && !vars.Helper["BossesCompleted"].Old.Contains(8)  && vars.Helper["BossesCompleted"].Current.Contains(8))
+        || (settings["kal"] && !vars.Helper["BossesCompleted"].Old.Contains(9)  && vars.Helper["BossesCompleted"].Current.Contains(9))
+        || (settings["sha"] && !vars.Helper["BossesCompleted"].Old.Contains(10) && vars.Helper["BossesCompleted"].Current.Contains(10));
 }
 
 start
@@ -95,7 +108,7 @@ start
 
 isLoading
 {
-	return current.IsPaused;
+	return string.IsNullOrEmpty(vars.CurrentScene) || vars.CurrentScene == "BufferScene" || current.IsPaused;
 }
 
 exit
